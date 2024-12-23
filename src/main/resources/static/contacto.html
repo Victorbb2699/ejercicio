@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Contacto</title>
+  <link rel="stylesheet" href="contactoStyles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+</head>
+
+<body>
+
+  <form id="commentForm" method="get" action="">
+    <fieldset>
+      <legend>Formulario contacto</legend>
+
+      <p>
+        <label for="cname">Nombre</label>
+        <input id="cname" name="name" minlength="2" type="text" required>
+      </p>
+
+      <p>
+        <label for="capellido">Apellido</label>
+        <input id="capellido" name="capellido" minlength="2" type="text" required>
+      </p>
+
+      <p>
+        <label for="cemail">E-Mail</label>
+        <input id="cemail" type="email" name="email" required>
+      </p>
+
+      <p>
+        <label for="cempleo">Empleo</label>
+        <input id="cempleo" type="text" name="cempleo" required>
+      </p>
+
+      <p>
+        <label for="clocalidad">Localidad</label>
+        <input id="clocalidad" type="text" name="clocalidad" required>
+      </p>
+
+      <p>
+        <input class="submit" type="submit" value="Enviar">
+      </p>
+    </fieldset>
+  </form>
+
+  <script>
+    // jQuery - Iniciar la validación del formulario
+    $(document).ready(function () {
+      $("#commentForm").validate({
+        rules: {
+          name: {
+            required: true,
+            minlength: 2
+          },
+          capellido: {
+            required: true,
+            minlength: 2
+          },
+          email: {
+            required: true,
+            email: true
+          },
+          cempleo: {
+            required: true
+          },
+          clocalidad: {
+            required: true
+          }
+        },
+        messages: {
+          name: {
+            required: "Por favor, ingresa tu nombre.",
+            minlength: "El nombre debe tener al menos 2 caracteres."
+          },
+          capellido: {
+            required: "Por favor, ingresa tu apellido.",
+            minlength: "El apellido debe tener al menos 2 caracteres."
+          },
+          email: {
+            required: "Por favor, ingresa tu correo electrónico.",
+            email: "Por favor, ingresa un correo electrónico válido."
+          },
+          cempleo: {
+            required: "Por favor, ingresa tu empleo."
+          },
+          clocalidad: {
+            required: "Por favor, ingresa tu localidad."
+          }
+        },
+        submitHandler: function (form) {
+          // Mostrar mensaje de éxito al enviar el formulario
+          alert("Formulario enviado correctamente.");
+          form.submit(); // Enviar el formulario
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

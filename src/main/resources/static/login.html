@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Login</title>
+  <link rel="stylesheet" href="loginStyles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+</head>
+
+<body>
+  <form class="cmxform" id="form" method="get" action="">
+    <fieldset>
+      <legend>Login form</legend>
+      <p>
+        <label for="cname">Nombre (obligatorio)</label>
+        <input id="cname" name="name" minlength="2" type="text" required>
+      </p>
+      <p>
+        <label for="cemail">E-Mail (obligatorio):</label>
+        <input id="cemail" type="email" name="email" required>
+      </p>
+      <p>
+        <label for="password">Password (obligatorio):</label>
+        <input id="password" type="password" name="password" required>
+      </p>
+      <p>
+        <label for="terms">
+          <input type="checkbox" class="checkbox" id="terms" name="terms" required>
+          Acepto los términos y condiciones
+        </label>
+      </p>
+      <p>
+        <label for="newsletter">
+          <input type="checkbox" class="checkbox" id="newsletter" name="newsletter">
+          Deseo recibir el newsletter (opcional)
+        </label>
+      </p>
+      <p>
+        <input class="submit" type="submit" value="Enviar">
+      </p>
+    </fieldset>
+  </form>
+
+  <script>
+    $(document).ready(function () {
+      // Validar el formulario
+      $("#form").validate({
+        rules: {
+          name: {
+            required: true,
+            minlength: 2
+          },
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true
+          },
+          terms: {
+            required: true
+          }
+        },
+        messages: {
+          name: {
+            required: "Por favor, ingresa tu nombre.",
+            minlength: "El nombre debe tener al menos 2 caracteres."
+          },
+          email: {
+            required: "Por favor, ingresa tu correo electrónico.",
+            email: "Por favor, ingresa un correo válido."
+          },
+          password: {
+            required: "Por favor, ingresa una contraseña."
+          },
+          terms: {
+            required: "Debes aceptar los términos y condiciones."
+          }
+        },
+        submitHandler: function (form) {
+          // Mostrar alerta al enviar el formulario
+          alert("Formulario enviado correctamente.");
+          form.submit();
+        }
+      });
+
+      // Mostrar un mensaje en caso de no aceptar los términos
+      $("#terms").on("change", function () {
+        if (!this.checked) {
+          alert("Debes aceptar los términos y condiciones para continuar.");
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

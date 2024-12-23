@@ -1,0 +1,164 @@
+/* Diseño general del formulario */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7f6;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  /* Agrega un poco de espacio en los bordes del body */
+}
+
+h2 {
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  /* Incrementa la separación entre el título y el formulario */
+}
+
+/* Estilo del formulario */
+form {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  /* Ajusta el ancho máximo para mayor amplitud */
+  margin: 0 auto;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  font-size: 20px;
+  font-weight: bold;
+  color: #004e8c;
+  text-align: center;
+  margin-bottom: 30px;
+  /* Mayor separación para el título */
+}
+
+/* Espaciado entre los campos del formulario */
+p {
+  margin: 20px 0;
+  /* Incrementa el margen superior e inferior de los campos */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Etiquetas */
+label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"],
+input[type="checkbox"] {
+  padding: 12px;
+  margin: 10px 0;
+  /* Aumenta el margen superior e inferior de los campos */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  /* Asegura que los campos no se desborden */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: #f9f9f9;
+}
+
+input[type="submit"] {
+  background-color: #004e8c;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  padding: 14px;
+  margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+  background-color: #003366;
+}
+
+/* Estilo para checkboxes */
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 12px;
+  margin-top: 8px;
+  /* Mayor separación entre el checkbox y el texto */
+}
+
+/* Estilo del mensaje de validación */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Foco en los campos */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #004e8c;
+  background-color: #f1faff;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  border-color: #004e8c;
+}
+
+/* Personalización para el legend */
+legend {
+  color: #004e8c;
+  border-bottom: 2px solid #004e8c;
+  padding-bottom: 5px;
+  margin-bottom: 30px;
+}
+
+/* Estilo para el checkbox */
+.checkbox-label {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Mejora en los márgenes y rellenos */
+form p {
+  margin: 25px 0;
+  /* Márgenes aumentados entre los campos */
+}
+
+form input[type="submit"] {
+  margin-top: 30px;
+  /* Separa el botón de envío de los campos */
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  margin-left: 10px;
+  /* Aumenta el espacio entre los bordes laterales */
+  margin-right: 10px;
+  /* Mayor espacio en los laterales */
+}
