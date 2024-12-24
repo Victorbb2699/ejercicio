@@ -9,7 +9,7 @@ body {
   align-items: center;
   height: 100vh;
   padding: 20px;
-  /* Agrega un poco de espacio en los bordes del body */
+  /* Mantiene un poco de espacio en los bordes del body */
 }
 
 h2 {
@@ -17,7 +17,7 @@ h2 {
   text-align: center;
   color: #333;
   margin-bottom: 30px;
-  /* Incrementa la separación entre el título y el formulario */
+  /* Separación clara entre el título y el formulario */
 }
 
 /* Estilo del formulario */
@@ -43,14 +43,14 @@ legend {
   font-weight: bold;
   color: #004e8c;
   text-align: center;
-  margin-bottom: 30px;
-  /* Mayor separación para el título */
+  margin-bottom: 20px;
+  /* Separación equilibrada para el título del formulario */
 }
 
 /* Espaciado entre los campos del formulario */
 p {
-  margin: 20px 0;
-  /* Incrementa el margen superior e inferior de los campos */
+  margin: 18px 0;
+  /* Separación uniforme entre cada campo */
   display: flex;
   flex-direction: column;
 }
@@ -59,7 +59,8 @@ p {
 label {
   font-size: 14px;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  /* Espaciado uniforme entre etiqueta y campo */
   text-align: left;
 }
 
@@ -105,15 +106,17 @@ input[type="submit"]:hover {
 input[type="checkbox"] {
   width: auto;
   margin-right: 12px;
-  margin-top: 8px;
-  /* Mayor separación entre el checkbox y el texto */
+  margin-top: 6px;
+  /* Espaciado uniforme entre el checkbox y el texto */
 }
 
 /* Estilo del mensaje de validación */
 .error {
   color: red;
   font-size: 12px;
-  margin-top: 5px;
+  margin-top: 6px;
+  display: block;
+  /* Para asegurarse de que el mensaje esté debajo */
 }
 
 /* Foco en los campos */
@@ -137,16 +140,10 @@ legend {
   margin-bottom: 30px;
 }
 
-/* Estilo para el checkbox */
-.checkbox-label {
-  font-size: 14px;
-  color: #333;
-}
-
 /* Mejora en los márgenes y rellenos */
 form p {
-  margin: 25px 0;
-  /* Márgenes aumentados entre los campos */
+  margin: 20px 0;
+  /* Márgenes uniformes entre los campos */
 }
 
 form input[type="submit"] {
@@ -157,8 +154,7 @@ form input[type="submit"] {
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
-  margin-left: 10px;
-  /* Aumenta el espacio entre los bordes laterales */
-  margin-right: 10px;
-  /* Mayor espacio en los laterales */
+  margin-left: 0;
+  /* Espaciado uniforme en los laterales */
+  margin-right: 0;
 }
