@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <form class="cmxform" id="form" method="get" action="">
+  <form class="cmxform" id="form" method="post" action="/api/register">
     <fieldset>
       <legend>Login form</legend>
       <p>
@@ -88,12 +88,20 @@
         }
       });
 
-      // Mostrar un mensaje en caso de no aceptar los términos
-      $("#terms").on("change", function () {
-        if (!this.checked) {
-          alert("Debes aceptar los términos y condiciones para continuar.");
+      $.ajax({
+        url: '/register',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function (response) {
+          $('#response').html('<p>Login exitoso: ' + response + '</p>');
+        },
+        error: function (xhr) {
+          $('#response').html('<p>Error: ' + xhr.responseText + '</p>');
         }
       });
+
+
     });
   </script>
 </body>
