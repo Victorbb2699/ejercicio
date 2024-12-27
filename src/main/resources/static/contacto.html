@@ -5,58 +5,179 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario de Contacto</title>
-  <link rel="stylesheet" href="contactoStyles.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+  <style>
+    /* Estilo general */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #eceff1, #b0bec5);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Contenedor */
+    .container {
+      background-color: #ffffff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 450px;
+      box-sizing: border-box;
+    }
+
+    /* Título */
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Etiquetas */
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    /* Campos de entrada */
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    /* Estilo para el select */
+    select {
+      appearance: none;
+      background-color: #ffffff;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="gray" d="M7 10l5 5 5-5z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Hover y foco */
+    input:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+      background-color: #f9f9f9;
+    }
+
+    /* Botón de envío */
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Respuesta */
+    #response {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* Estilo de errores */
+    .error {
+      color: #ff0000;
+      font-size: 12px;
+    }
+  </style>
+
 </head>
 
 <body>
 
-  <form id="commentForm" method="get" action="">
-    <fieldset>
-      <legend>Formulario contacto</legend>
+  <div class="container">
+    <form id="contactForm">
+      <h1>Formulario de Contacto</h1>
 
-      <p>
-        <label for="cname">Nombre</label>
-        <input id="cname" name="name" minlength="2" type="text" required>
-      </p>
+      <!-- Campo Nombre -->
+      <label for="name">Nombre</label>
+      <input id="name" name="name" type="text" placeholder="Ingresa tu nombre">
 
-      <p>
-        <label for="capellido">Apellido</label>
-        <input id="capellido" name="capellido" minlength="2" type="text" required>
-      </p>
+      <!-- Campo Apellido -->
+      <label for="surname">Apellido</label>
+      <input id="surname" name="surname" type="text" placeholder="Ingresa tu apellido">
 
-      <p>
-        <label for="cemail">E-Mail</label>
-        <input id="cemail" type="email" name="email" required>
-      </p>
+      <!-- Campo Email -->
+      <label for="email">Correo Electrónico</label>
+      <input id="email" name="email" type="email" placeholder="Ingresa tu correo electrónico">
 
-      <p>
-        <label for="cempleo">Empleo</label>
-        <input id="cempleo" type="text" name="cempleo" required>
-      </p>
+      <!-- Campo Empleo -->
+      <label for="job">Empleo</label>
+      <input id="job" name="job" type="text" placeholder="Ingresa tu empleo">
 
-      <p>
-        <label for="clocalidad">Localidad</label>
-        <input id="clocalidad" type="text" name="clocalidad" required>
-      </p>
+      <!-- Campo País -->
+      <label for="country">País</label>
+      <select id="country" name="country" required>
+        <option value="">Cargando países...</option>
+      </select>
 
-      <p>
-        <input class="submit" type="submit" value="Enviar">
-      </p>
-    </fieldset>
-  </form>
+      <button type="submit">Enviar</button>
+    </form>
 
+    <div id="response"></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
   <script>
-    // jQuery - Iniciar la validación del formulario
     $(document).ready(function () {
-      $("#commentForm").validate({
+
+      // Cargar los países desde REST Countries API
+      function loadCountries() {
+        $.ajax({
+          url: 'https://restcountries.com/v3.1/all',
+          type: 'GET',
+          success: function (data) {
+            const countryDropdown = $('#country');
+            countryDropdown.html('<option value="">Seleccione un país</option>');
+            data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+            data.forEach(country => {
+              const countryName = country.name.common;
+              countryDropdown.append(`<option value="${countryName}">${countryName}</option>`);
+            });
+          },
+          error: function () {
+            alert('Error al cargar los países. Intenta nuevamente.');
+            $('#country').html('<option value="">Error al cargar</option>');
+          }
+        });
+      }
+
+      // Inicializar la validación de jQuery
+      $('#contactForm').validate({
         rules: {
           name: {
             required: true,
             minlength: 2
           },
-          capellido: {
+          surname: {
             required: true,
             minlength: 2
           },
@@ -64,10 +185,10 @@
             required: true,
             email: true
           },
-          cempleo: {
+          job: {
             required: true
           },
-          clocalidad: {
+          country: {
             required: true
           }
         },
@@ -76,7 +197,7 @@
             required: "Por favor, ingresa tu nombre.",
             minlength: "El nombre debe tener al menos 2 caracteres."
           },
-          capellido: {
+          surname: {
             required: "Por favor, ingresa tu apellido.",
             minlength: "El apellido debe tener al menos 2 caracteres."
           },
@@ -84,19 +205,40 @@
             required: "Por favor, ingresa tu correo electrónico.",
             email: "Por favor, ingresa un correo electrónico válido."
           },
-          cempleo: {
+          job: {
             required: "Por favor, ingresa tu empleo."
           },
-          clocalidad: {
-            required: "Por favor, ingresa tu localidad."
+          country: {
+            required: "Por favor, selecciona tu país."
           }
         },
         submitHandler: function (form) {
-          // Mostrar mensaje de éxito al enviar el formulario
-          alert("Formulario enviado correctamente.");
-          form.submit(); // Enviar el formulario
+          const formData = {
+            name: $('#name').val(),
+            surname: $('#surname').val(),
+            email: $('#email').val(),
+            job: $('#job').val(),
+            country: $('#country').val()
+          };
+
+          $.ajax({
+            url: 'http://localhost:8080/api/contact',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+              $('#response').html(`<p>Datos enviados exitosamente: ${JSON.stringify(response)}</p>`);
+              $('#contactForm')[0].reset(); // Limpiar el formulario
+            },
+            error: function (xhr) {
+              $('#response').html(`<p>Error al enviar los datos: ${xhr.responseText}</p>`);
+            }
+          });
         }
       });
+
+      // Llamar a la función para cargar los países al iniciar
+      loadCountries();
     });
   </script>
 

@@ -5,45 +5,168 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario de Login</title>
-  <link rel="stylesheet" href="loginStyles.css">
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+  <style>
+    /* Estilos generales */
+    body {
+      background: linear-gradient(135deg, #3498db, #8e44ad);
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Contenedor del formulario */
+    .cmxform {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 450px;
+      box-sizing: border-box;
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+    }
+
+    legend {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* Etiquetas y entradas */
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #34495e;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="checkbox"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    /* Estilo para los inputs en foco */
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #3498db;
+      background-color: #f1f1f1;
+      outline: none;
+    }
+
+    /* Estilo para el checkbox */
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    /* Estilo para el botón de envío */
+    .submit {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Hover del botón */
+    .submit:hover {
+      background-color: #2980b9;
+    }
+
+    /* Mensaje de respuesta */
+    #response {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    /* Estilos de errores */
+    .error {
+      color: #e74c3c;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
-  <form class="cmxform" id="form" method="post" action="/api/register">
+  <form class="cmxform" id="form">
     <fieldset>
-      <legend>Login form</legend>
+      <legend>Formulario de Login</legend>
+
+      <!-- Nombre -->
       <p>
         <label for="cname">Nombre (obligatorio)</label>
         <input id="cname" name="name" minlength="2" type="text" required>
       </p>
+
+      <!-- Email -->
       <p>
         <label for="cemail">E-Mail (obligatorio):</label>
         <input id="cemail" type="email" name="email" required>
       </p>
+
+      <!-- Contraseña -->
       <p>
         <label for="password">Password (obligatorio):</label>
         <input id="password" type="password" name="password" required>
       </p>
+
+      <!-- Aceptación de términos -->
       <p>
-        <label for="terms">
-          <input type="checkbox" class="checkbox" id="terms" name="terms" required>
+        <label for="termminos">
+          <input type="checkbox" class="checkbox" id="termminos" name="termminos" required value="true">
           Acepto los términos y condiciones
         </label>
       </p>
+
+      <!-- Newsletter -->
       <p>
         <label for="newsletter">
-          <input type="checkbox" class="checkbox" id="newsletter" name="newsletter">
+          <input type="checkbox" class="checkbox" id="newsletter" name="newsletter" value="true">
           Deseo recibir el newsletter (opcional)
         </label>
       </p>
+
+      <!-- Botón de Enviar -->
       <p>
         <input class="submit" type="submit" value="Enviar">
       </p>
     </fieldset>
   </form>
+
+  <!-- Respuesta del formulario -->
+  <div id="response"></div>
 
   <script>
     $(document).ready(function () {
@@ -61,7 +184,7 @@
           password: {
             required: true
           },
-          terms: {
+          termminos: {
             required: true
           }
         },
@@ -77,31 +200,36 @@
           password: {
             required: "Por favor, ingresa una contraseña."
           },
-          terms: {
+          termminos: {
             required: "Debes aceptar los términos y condiciones."
           }
         },
-        submitHandler: function (form) {
-          // Mostrar alerta al enviar el formulario
-          alert("Formulario enviado correctamente.");
-          form.submit();
+        submitHandler: function () {
+          const jsonData = {
+            nombre: $('#cname').val(),
+            email: $('#cemail').val(),
+            password: $('#password').val(),
+            termminos: $('#termminos').is(':checked'),
+            newsletter: $('#newsletter').is(':checked')
+          };
+
+          $.ajax({
+            url: 'http://localhost:8080/api/register',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(jsonData),
+            success: function (response) {
+              $('#response').html('<p>Registro exitoso.</p>');
+              $("#form")[0].reset(); // Limpiar el formulario
+            },
+            error: function (xhr) {
+              $('#response').html('<p>Error: ' + xhr.responseText + '</p>');
+            }
+          });
+
+          return false;
         }
       });
-
-      $.ajax({
-        url: '/register',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(formData),
-        success: function (response) {
-          $('#response').html('<p>Login exitoso: ' + response + '</p>');
-        },
-        error: function (xhr) {
-          $('#response').html('<p>Error: ' + xhr.responseText + '</p>');
-        }
-      });
-
-
     });
   </script>
 </body>
