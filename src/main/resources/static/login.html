@@ -223,7 +223,13 @@
               $("#form")[0].reset(); // Limpiar el formulario
             },
             error: function (xhr) {
-              $('#response').html('<p>Error: ' + xhr.responseText + '</p>');
+              if (xhr.status === 400) {
+                // Si el error es 400, significa que el correo ya está registrado
+                $('#response').html('<p>Error: ' + xhr.responseText + '</p>');
+              } else {
+                // Otros errores
+                $('#response').html('<p>Hubo un problema al procesar tu solicitud. Intenta más tarde.</p>');
+              }
             }
           });
 
