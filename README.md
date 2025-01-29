@@ -1,1 +1,1 @@
-Practica generacion dedos formularios con validaciones jquery, springboot back y loggers.
+Practica generacion de dos formularios con validaciones jquery, springboot back y loggers.
